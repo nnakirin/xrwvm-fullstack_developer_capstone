@@ -7,7 +7,34 @@
 <script>
 
 const logout = async (e) => {
-//Include the code for logout here.
+// Будуємо правильне посилання для виходу (твоя адреса + /djangoapp/logout)
+let logout_url = window.location.origin + "/djangoapp/logout";
+
+// Робимо GET-запит до бекенду, щоб він "вбив" сесію
+const res = await fetch(logout_url, {
+  method: "GET",
+});
+
+// Чекаємо на відповідь від сервера
+const json = await res.json();
+
+if (json) {
+  // Якщо сервер відповів успішно, стираємо ім'я користувача з пам'яті браузера
+  let username = sessionStorage.getItem('username');
+  sessionStorage.removeItem('username');
+  
+  // Перекидаємо користувача на головну сторінку
+  window.location.href = window.location.origin;
+  
+  // Оновлюємо сторінку, щоб інтерфейс перемалювався (показав кнопку Login замість Logout)
+  window.location.reload();
+  
+  // Показуємо повідомлення
+  alert("Logging out " + username + "...");
+} else {
+  // Якщо щось пішло не так
+  alert("The user could not be logged out.");
+}
 };
 
 let checkSession = ()=>{
