@@ -1,25 +1,50 @@
-# Uncomment the following imports before adding the Model code
-
-# from django.db import models
-# from django.utils.timezone import now
-# from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.db import models
+from django.utils.timezone import now
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
-# <HINT> Create a Car Make model `class CarMake(models.Model)`:
-# - Name
-# - Description
-# - Any other fields you would like to include in car make model
-# - __str__ method to print a car make object
+# Модель для марки автомобіля
+class CarMake(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    country_of_origin = models.CharField(max_length=50, blank=True, null=True) # Додаткове поле за бажанням
+
+    def __str__(self):
+        return self.name  # Повертає назву марки
 
 
-# <HINT> Create a Car Model model `class CarModel(models.Model):`:
-# - Many-To-One relationship to Car Make model (One Car Make has many
-# Car Models, using ForeignKey field)
-# - Name
-# - Type (CharField with a choices argument to provide limited choices
-# such as Sedan, SUV, WAGON, etc.)
-# - Year (IntegerField) with min value 2015 and max value 2023
-# - Any other fields you would like to include in car model
-# - __str__ method to print a car make object
+# Модель для конкретної моделі автомобіля
+class CarModel(models.Model):
+    # Зв'язок Багато-до-Одного (Багато моделей до однієї марки)
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
+    
+    name = models.CharField(max_length=100)
+    
+    # Поле ID дилера, що посилається на базу Cloudant
+    dealer_id = models.IntegerField()
+    
+    CAR_TYPES = [
+        ('SEDAN', 'Sedan'),
+        ('SUV', 'SUV'),
+        ('WAGON', 'Wagon'),
+        ('COUPE', 'Coupe'),
+        ('HATCHBACK', 'Hatchback'),
+    ]
+    type = models.CharField(
+        max_length=10,
+        choices=CAR_TYPES,
+        default='SUV'
+    )
+    
+    # Рік випуску з обмеженнями від 2015 до 2023
+    year = models.IntegerField(
+        default=2023,
+        validators=[
+            MaxValueValidator(2023),
+            MinValueValidator(2015)
+        ]
+    )
+
+    def __str__(self):
+        return f"{self.car_make.name} {self.name}" # Виводить марку та модель разом

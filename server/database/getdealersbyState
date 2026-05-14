@@ -1,0 +1,2 @@
+curl -X GET "http://localhost:3030/fetchDealers/Kansas"
+OCI runtime exec failed: exec failed: unable to start container process: exec: "curl": executable file not found in $PATH: unknown

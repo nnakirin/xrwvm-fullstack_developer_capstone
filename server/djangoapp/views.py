@@ -7,6 +7,8 @@ from datetime import datetime
 import json
 import logging
 from django.views.decorators.csrf import csrf_exempt
+from .models import CarMake, CarModel # Імпортуємо твої нові моделі
+from .restapis import get_request, analyze_review_sentiments, post_review # Ці функції знадобляться пізніше
 
 # Отримуємо екземпляр логера
 logger = logging.getLogger(__name__)
@@ -28,16 +30,13 @@ def login_user(request):
         
     return JsonResponse(data)
 
-
 def logout_request(request):
     logout(request)
     data = {"userName": ""}
     return JsonResponse(data)
 
-
 @csrf_exempt
 def registration(request):
-    # Load JSON data from the request body
     data = json.loads(request.body)
     username = data['userName']
     password = data['password']
@@ -47,18 +46,19 @@ def registration(request):
     username_exist = False
     
     try:
-        # Check if user already exists
         User.objects.get(username=username)
         username_exist = True
     except:
-        # If not, simply log this is a new user
         logger.debug("{} is new user".format(username))
 
-    # If it is a new user
     if not username_exist:
-        # Create user in auth_user table
-        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password, email=email)
-        # Login the user
+        user = User.objects.create_user(
+            username=username, 
+            first_name=first_name, 
+            last_name=last_name, 
+            password=password, 
+            email=email
+        )
         login(request, user)
         data = {"userName": username, "status": "Authenticated"}
         return JsonResponse(data)
@@ -66,21 +66,60 @@ def registration(request):
         data = {"userName": username, "error": "Already Registered"}
         return JsonResponse(data)
 
+# --- ЗАВДАННЯ ПО РОБОТІ З ДИЛЕРАМИ ТА ВІДГУКАМИ ---
 
-# --- ЗАГОТОВКИ ДЛЯ МАЙБУТНІХ ЗАВДАНЬ ---
+# Отримання списку дилерів
+def get_dealerships(request, state="All"):
+    if state == "All":
+        endpoint = "/fetchDealers"
+    else:
+        endpoint = "/fetchDealers/" + state
+    dealerships = get_request(endpoint)
+    return JsonResponse({"status": 200, "inventory": dealerships})
 
-# Update the `get_dealerships` view to render the index page with a list of dealerships
-# def get_dealerships(request):
-# ...
+# Отримання відгуків про конкретного дилера
+def get_dealer_reviews(request, dealer_id):
+    if dealer_id:
+        endpoint = "/fetchReviews/dealer/" + str(dealer_id)
+        reviews = get_request(endpoint)
+        for review_detail in reviews:
+            response = analyze_review_sentiments(review_detail['review'])
+            review_detail['sentiment'] = response['sentiment']
+        return JsonResponse({"status": 200, "reviews": reviews})
+    else:
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
-# Create a `get_dealer_reviews` view to render the reviews of a dealer
-# def get_dealer_reviews(request,dealer_id):
-# ...
+# Отримання деталей дилера за його ID
+def get_dealer_details(request, dealer_id):
+    if dealer_id:
+        endpoint = "/fetchDealer/" + str(dealer_id)
+        status = get_request(endpoint)
+        return JsonResponse({"status": 200, "dealer": status})
+    else:
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
-# Create a `get_dealer_details` view to render the dealer details
-# def get_dealer_details(request, dealer_id):
-# ...
-
-# Create a `add_review` view to submit a review
-# def add_review(request):
-# ...
+# Додавання відгуку
+def add_review(request):
+    if not request.user.is_anonymous:
+        data = json.loads(request.body)
+        try:
+            post_review(data)
+            return JsonResponse({"status": 200})
+        except Exception as e:
+            return JsonResponse({"status": 401, "message": "Error in posting review"})
+    else:
+        return JsonResponse({"status": 403, "message": "Unauthorized"})
+        # Функція для отримання списку автомобілів
+def get_cars(request):
+    count = CarMake.objects.filter().count()
+    print(count)
+    if(count == 0):
+        # Якщо база порожня, додамо кілька тестових записів для перевірки
+        initiate()
+    
+    car_models = CarModel.objects.select_related('car_make')
+    cars = []
+    for car in car_models:
+        cars.append({"CarModel": car.name, "CarMake": car.car_make.name})
+    
+    return JsonResponse({"CarModels": cars})
