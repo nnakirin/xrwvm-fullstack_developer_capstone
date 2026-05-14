@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - Best Cars</title>
+  <!-- Підключаємо стилі Bootstrap та наш власний CSS -->
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+</head>
+<body>
+<div>
+  <!-- Навігаційна панель -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
+    <div class="container-fluid">
+      <h2 style="padding-right: 5%;">Dealerships</h2>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: larger;" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: larger;" href="/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <!-- Тут ми робимо "Contact Us" активним -->
+            <a class="nav-link active" style="font-size: larger;" href="/contact">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Блок з контактною інформацією -->
+  <div class="container" style="margin-top: 5%;">
+    <div class="card" style="width: 80%; margin: auto; padding: 30px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none;">
+      <h1 style="text-align: center; margin-bottom: 40px;">Contact Information</h1>
+      
+      <div style="display: flex; flex-direction: row; justify-content: space-around; flex-wrap: wrap;">
+        
+        <!-- Відділ підтримки -->
+        <div style="text-align: center; margin: 10px; padding: 20px; border-radius: 8px; background-color: #f8f9fa; width: 30%;">
+          <h3 style="color: darkturquoise;">Customer Support</h3>
+          <p><strong>Email:</strong> support@bestcars.example.com</p>
+          <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+          <p style="color: gray;">Mon - Fri: 9:00 AM - 6:00 PM</p>
+        </div>
+
+        <!-- Відділ продажу -->
+        <div style="text-align: center; margin: 10px; padding: 20px; border-radius: 8px; background-color: #f8f9fa; width: 30%;">
+          <h3 style="color: darkturquoise;">Sales Department</h3>
+          <p><strong>Email:</strong> sales@bestcars.example.com</p>
+          <p><strong>Phone:</strong> +1 (555) 987-6543</p>
+          <p style="color: gray;">Mon - Sun: 8:00 AM - 8:00 PM</p>
+        </div>
+
+        <!-- Головний офіс -->
+        <div style="text-align: center; margin: 10px; padding: 20px; border-radius: 8px; background-color: #f8f9fa; width: 30%;">
+          <h3 style="color: darkturquoise;">Headquarters</h3>
+          <p><strong>Address:</strong><br>
+            123 Auto Drive,<br>
+            Motor City, MI 48201<br>
+            USA
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

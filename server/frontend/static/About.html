@@ -1,8 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <!-- Link the style sheet here -->
+  <meta charset="UTF-8">
+  <title>About Us - Best Cars</title>
+  <!-- Підключаємо стилі, як вимагає інструкція -->
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
 </head>
+<body>
 <div>
+  <!-- Навігаційна панель -->
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
     <div class="container-fluid">
       <h2 style="padding-right: 5%;">Dealerships</h2>
@@ -25,44 +32,53 @@
     </div>
   </nav>
   
-    <div class="card" style="width: 80%;margin: auto; margin-top:5%;">
-      <div class="banner" name="about-header">
-      <!-- Insert header information here -->
-      </div>
-      <div style="display: flex;flex-direction: row; margin:auto">
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="/static/person.png" alt="Card image">
-        <div class="card-body">
-          <p class="title">Person1</p>
-          <p>Person1 Title</p>
-          <p class="card-text">Some text that explains the person1 in about 2 short sentences</p>
-          <p>person1@example.com</p>
-        </div>
-      </div>
-
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="/static/person.png" alt="Card image">
-        <div class="card-body">
-          <p class="title">Person2</p>
-          <p>Person2 Title</p>
-          <p class="card-text">Some text that explains the person2 in about 2 short sentences</p>
-          <p>person2@example.com</p>
-        </div>
-      </div>
-
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="/static/person.png" alt="Card image">
-        <div class="card-body">
-          <p class="title">Person3</p>
-          <p>Person3 Title</p>
-          <p class="card-text">Some text that explains the person3 in about 2 short sentences</p>
-          <p>person3@example.com</p>
-        </div>
-      </div>
-    </div>
-    </div>
-    </div>
+  <!-- Основний контент -->
+  <div class="card" style="width: 80%; margin: auto; margin-top:5%; border: none;">
     
-</div>
+    <!-- Секція About Header з інструкції -->
+    <div class="banner" name="about-header" style="text-align: center; margin-bottom: 40px;">
+      <h1>About Us</h1>
+      <p style="font-size: 1.2em; color: #555;">Welcome to Best Cars dealership, home to the best cars in North America. We deal in selling domestic and imported cars at reasonable prices.</p>
+    </div>
+      
+    <!-- Картки команди -->
+    <div style="display: flex; flex-direction: row; justify-content: space-between; margin:auto; width: 100%;">
+      
+      <!-- Картка 1 -->
+      <div class="card" style="width: 30%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <img class="card-img-top" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Iryna Shkilna">
+        <div class="card-body" style="text-align: center;">
+          <p class="title" style="font-weight: bold; font-size: 1.2em; margin-bottom: 5px;">Iryna Shkilna</p>
+          <p style="color: gray; margin-bottom: 10px;">CEO & Lead Full-Stack Developer</p>
+          <p class="card-text">Passionate about connecting people with their dream cars through modern web technologies.</p>
+          <p style="color: darkturquoise; font-weight: 500;">iryna@bestcars.example.com</p>
+        </div>
+      </div>
 
+      <!-- Картка 2 -->
+      <div class="card" style="width: 30%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <img class="card-img-top" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Michael Chen">
+        <div class="card-body" style="text-align: center;">
+          <p class="title" style="font-weight: bold; font-size: 1.2em; margin-bottom: 5px;">Michael Chen</p>
+          <p style="color: gray; margin-bottom: 10px;">Sales Director</p>
+          <p class="card-text">Over 15 years of experience in the automotive industry, ensuring top-tier customer satisfaction.</p>
+          <p style="color: darkturquoise; font-weight: 500;">michael@bestcars.example.com</p>
+        </div>
+      </div>
+
+      <!-- Картка 3 -->
+      <div class="card" style="width: 30%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <img class="card-img-top" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sarah Jenkins">
+        <div class="card-body" style="text-align: center;">
+          <p class="title" style="font-weight: bold; font-size: 1.2em; margin-bottom: 5px;">Sarah Jenkins</p>
+          <p style="color: gray; margin-bottom: 10px;">Head of Customer Support</p>
+          <p class="card-text">Dedicated to making your car buying journey as smooth and enjoyable as possible.</p>
+          <p style="color: darkturquoise; font-weight: 500;">sarah@bestcars.example.com</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
 </html>
