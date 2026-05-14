@@ -8,8 +8,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('djangoapp/', include('djangoapp.urls')),
     path('', TemplateView.as_view(template_name="Home.html")),
-    # Ось наш новий шлях для сторінки About Us:
     path('about/', TemplateView.as_view(template_name="About.html")),
-    # Одразу додамо і для Contact Us, щоб потім не повертатися:
     path('contact/', TemplateView.as_view(template_name="Contact.html")),
+    # Додаємо маршрут для сторінки логіну:
+    path('login/', TemplateView.as_view(template_name="index.html")),
+    path('register/', TemplateView.as_view(template_name="index.html")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
