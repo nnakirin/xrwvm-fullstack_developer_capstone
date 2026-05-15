@@ -7,8 +7,9 @@ from datetime import datetime
 import json
 import logging
 from django.views.decorators.csrf import csrf_exempt
-from .models import CarMake, CarModel # Імпортуємо твої нові моделі
-from .restapis import get_request, analyze_review_sentiments, post_review # Ці функції знадобляться пізніше
+from .models import CarMake, CarModel 
+from .restapis import get_request, analyze_review_sentiments, post_review 
+from .populate import initiate  # Додано імпорт для функції get_cars
 
 # Отримуємо екземпляр логера
 logger = logging.getLogger(__name__)
@@ -75,7 +76,8 @@ def get_dealerships(request, state="All"):
     else:
         endpoint = "/fetchDealers/" + state
     dealerships = get_request(endpoint)
-    return JsonResponse({"status": 200, "inventory": dealerships})
+    # Виправлено ключ на "dealers", щоб фронтенд міг його знайти
+    return JsonResponse({"status": 200, "dealers": dealerships})
 
 # Отримання відгуків про конкретного дилера
 def get_dealer_reviews(request, dealer_id):
@@ -89,12 +91,15 @@ def get_dealer_reviews(request, dealer_id):
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
-# Отримання деталей дилера за його ID
 def get_dealer_details(request, dealer_id):
     if dealer_id:
         endpoint = "/fetchDealer/" + str(dealer_id)
-        status = get_request(endpoint)
-        return JsonResponse({"status": 200, "dealer": status})
+        dealership = get_request(endpoint)
+        
+        if isinstance(dealership, dict):
+            dealership = [dealership]
+            
+        return JsonResponse({"status": 200, "dealer": dealership})
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
@@ -109,12 +114,13 @@ def add_review(request):
             return JsonResponse({"status": 401, "message": "Error in posting review"})
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
-        # Функція для отримання списку автомобілів
+
+# Функція для отримання списку автомобілів
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
     if(count == 0):
-        # Якщо база порожня, додамо кілька тестових записів для перевірки
+        # Тепер ця функція працюватиме коректно
         initiate()
     
     car_models = CarModel.objects.select_related('car_make')
