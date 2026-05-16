@@ -1,14 +1,18 @@
 from django.db import models
-from django.utils.timezone import now
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
 # Модель для марки автомобіля
+
+
 class CarMake(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    country_of_origin = models.CharField(max_length=50, blank=True, null=True) # Додаткове поле за бажанням
+    country_of_origin = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True)  # Додаткове поле за бажанням
 
     def __str__(self):
         return self.name  # Повертає назву марки
@@ -18,12 +22,12 @@ class CarMake(models.Model):
 class CarModel(models.Model):
     # Зв'язок Багато-до-Одного (Багато моделей до однієї марки)
     car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    
+
     name = models.CharField(max_length=100)
-    
+
     # Поле ID дилера, що посилається на базу Cloudant
     dealer_id = models.IntegerField()
-    
+
     CAR_TYPES = [
         ('SEDAN', 'Sedan'),
         ('SUV', 'SUV'),
@@ -36,7 +40,7 @@ class CarModel(models.Model):
         choices=CAR_TYPES,
         default='SUV'
     )
-    
+
     # Рік випуску з обмеженнями від 2015 до 2023
     year = models.IntegerField(
         default=2023,
@@ -47,4 +51,5 @@ class CarModel(models.Model):
     )
 
     def __str__(self):
-        return f"{self.car_make.name} {self.name}" # Виводить марку та модель разом
+        # Виводить марку та модель разом
+        return f"{self.car_make.name} {self.name}"

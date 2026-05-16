@@ -11,6 +11,8 @@ sentiment_analyzer_url = os.getenv(
     default="http://localhost:5050/")
 
 # Функція для GET-запитів до бекенду (наприклад, до Express/MongoDB)
+
+
 def get_request(endpoint, **kwargs):
     params = ""
     if (kwargs):
@@ -29,6 +31,8 @@ def get_request(endpoint, **kwargs):
         return None
 
 # Функція для аналізу настрою тексту (Sentiment Analysis)
+
+
 def analyze_review_sentiments(text):
     request_url = sentiment_analyzer_url + "analyze/" + text
     try:
@@ -41,6 +45,8 @@ def analyze_review_sentiments(text):
         return None
 
 # Функція для POST-запитів (додавання відгуку)
+
+
 def post_review(data_dict):
     request_url = backend_url + "/insert_review"
     try:
